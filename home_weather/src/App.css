@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --sfondo: #0D0F15; 
+    --secondo: #263646 ;
+    --medio: #3E5C76;
+    --chiaro: #94A3B0;
+    --bianco: #E9E9E9;
+}
+
+body{
+    background-color: var(--sfondo);
+}
