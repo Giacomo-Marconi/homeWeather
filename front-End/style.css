@@ -284,3 +284,41 @@ body{
 text{
     fill: var(--bianco);
 }
+
+
+@media screen and (max-width: 800px){
+    .menu{
+        display: none;
+    }
+    .main{
+        flex-direction: column;
+    }
+    .content{
+        width: 100%;
+        height: 160vh;
+        padding: 3vw;
+        gap: 3vw;
+    }
+    .upper{
+        flex-direction: column;
+        gap: 3vw;
+        height: 60vh;
+    }
+    .lower{
+        padding: 1.5vw;
+        height: 100vh;
+    }
+    .interno{
+        padding: 1.5vw;
+        height: 100vh;
+    }
+    .interno-alto{
+        flex-direction: column;
+        gap: 3vw;
+        height: 60vh;
+    }
+    #figliolo{
+        text-align: center;
+    }
+    
+}
