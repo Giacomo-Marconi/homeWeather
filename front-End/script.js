@@ -13,6 +13,25 @@ function showPage(page) {
     });
 }
 
+const menu = document.getElementById('menu');
+
+menu.onclick = function(event) {
+    console.log('menu');
+    event.stopPropagation();
+    menu.style.display = 'flex';
+    pages.forEach(p => {
+        // document.getElementById(`${p}-div`).onclick = hiddenMenu;
+    });
+}
+
+
+function hiddenMenu() {
+    console.log('hiddenMenu');
+    menu.style.display = 'none';
+    pages.forEach(p => {
+        document.getElementById(`${p}-div`).onclick = '';
+    });
+}
 
 
 
@@ -62,7 +81,8 @@ Highcharts.chart('home-chart', {
             style: {
                 color: '#E9E9E9'
             }
-        }
+        },
+        lineColor: '#E9E9E9'
     },
     yAxis: {
         title: {
@@ -357,7 +377,8 @@ Highcharts.chart('temp-chart', {
             style: {
                 color: '#E9E9E9'
             }
-        }
+        },
+        lineColor: '#E9E9E9'
     },
     yAxis: {
         title: {
@@ -522,7 +543,8 @@ Highcharts.chart('umi-chart', {
             style: {
                 color: '#E9E9E9'
             }
-        }
+        },
+        lineColor: '#E9E9E9'
     },
     yAxis: {
         title: {
@@ -683,7 +705,8 @@ Highcharts.chart('illu-chart', {
             style: {
                 color: '#E9E9E9'
             }
-        }
+        },
+        lineColor: '#E9E9E9'
     },
     yAxis: {
         title: {

@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="assets/icon.png" />
         <title>HomeWeather</title>
+
 
         <link rel="stylesheet" href="./style.css" class="css" />
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -14,19 +16,22 @@
     </head>
     <body>
         <div class="main">
-            <div class="menu">
+            <div id="menu" class="menu">
                 <span id="title">HomeWeather</span>
                 <div class="lista-opzioni">
-                    <div id="home" class="opzione" onclick="showPage('home');"><p>Home</p></div>
-                    <div id="temp" class="opzione selezionato" onclick="showPage('temp');">Temperatura</div>
+                    <div id="home" class="opzione selezionato" onclick="showPage('home');"><p>Home</p></div>
+                    <div id="temp" class="opzione" onclick="showPage('temp');">Temperatura</div>
                     <div id="umi" class="opzione" onclick="showPage('umi');">Umidità</div>
                     <div id="illu" class="opzione" onclick="showPage('illu');">Illuminazione</div>
                 </div>
             </div>
 
             <!-- HOME -->
-            <div id="home-div" class="content" style="display: none;">
-                <div class="title"><p id="figliolo">Figliolo's Home</p></div>
+            <div id="home-div" class="content">
+                <div class="title">
+                    <img  src="assets/menu.svg">
+                    <p id="figliolo">Figliolo's Home</p>
+                </div>
                 <div class="upper">
                     <div class="element">
                         <div class="desc"><p>Temperatura</p></div>
@@ -59,8 +64,11 @@
             </div>
 
             <!-- TEMPERATURA -->
-            <div id="temp-div" class="content">
-                <div class="title"><p id="figliolo">Figliolo's Home Temperatura</p></div>
+            <div id="temp-div" class="content" style="display: none;">
+                <div class="title">
+                    <img  src="assets/menu.svg">
+                    <p id="figliolo">Figliolo's Home Temperatura</p>
+                </div>
                 <div class="interno-alto">
 
                     <div class="element">
@@ -105,7 +113,10 @@
 
             <!-- UMIDITÀ -->
             <div id="umi-div"class="content" style="display: none;">
-                <div class="title"><p id="figliolo">Figliolo's Home Umidità</p></div>
+                <div class="title">
+                    <img  src="assets/menu.svg">
+                    <p id="figliolo">Figliolo's Home Umidità</p>
+                </div>
                 <div class="interno-alto">
 
                     <div class="element">
@@ -149,7 +160,10 @@
 
             <!-- ILLUMINAZIONE -->
             <div id="illu-div" class="content" style="display: none;">
-                <div class="title"><p id="figliolo">Figliolo's Home Illuminazione</p></div>
+                <div class="title">
+                    <img  src="assets/menu.svg">
+                    <p id="figliolo">Figliolo's Home Illuminazione</p>
+                </div>
                 <div class="interno-alto">
 
                     <div class="element">

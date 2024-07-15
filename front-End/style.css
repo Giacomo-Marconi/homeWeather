@@ -91,11 +91,24 @@ body{
     align-items: center;
 }
 
+
+.title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1.5vw;
+}
+
 #figliolo{
     font-size: 2em;
     font-weight: bold;
 }
 
+img{
+    height: 2em;
+    flex: 0 0 auto;
+    display: none;
+}
 
 .upper{
     height: 30%;
@@ -266,7 +279,8 @@ body{
 
 
 
-.highcharts-no-tooltip, .highcharts-credits, .highcharts-subtitle{
+.highcharts-no-tooltip, .highcharts-credits, .highcharts-subtitle, .highcharts-a11y-proxy-element, 
+ul, button, .highcharts-a11y-proxy-group-chartMenu{
     display: none;
 }
 .highcharts-title{
@@ -286,15 +300,32 @@ text{
 }
 
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 800px) and (orientation: portrait){
     .menu{
         display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30vw;
+        height: 160vh;
+        z-index: 100;
     }
     .main{
         flex-direction: column;
     }
+    .title{
+        justify-content: space-between;
+    }
+    #figliolo{
+        text-align: center;
+        flex: 1;
+    }
+    
+    img{
+        display: block;
+    }
     .content{
-        width: 100%;
+        width: 100vw;
         height: 160vh;
         padding: 3vw;
         gap: 3vw;
@@ -307,6 +338,7 @@ text{
     .lower{
         padding: 1.5vw;
         height: 100vh;
+        padding: 4vw 4vw 0 4vw;
     }
     .interno{
         padding: 1.5vw;
@@ -317,8 +349,7 @@ text{
         gap: 3vw;
         height: 60vh;
     }
-    #figliolo{
-        text-align: center;
+    .element{
+        padding: 3vw 9vw;
     }
-    
 }
