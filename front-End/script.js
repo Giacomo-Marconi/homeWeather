@@ -1,4 +1,69 @@
 const pages = ['home', 'temp', 'umi', 'illu'];
+let temp=[];
+let hum=[];
+let illu=[];
+
+let illuData = [100, 0, 0]
+let tempData = [100, 0, 0]
+let humData = [100, 0, 0]
+
+function getData() {
+    fetch('http://184.174.34.61:8080/api/v1/data')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        data.forEach(d => {
+            const time = new Date(d.timestamp).getTime()
+            temp.push([time, d.temperature]);
+            if(d.temperature < tempData[0]) tempData[0] = d.temperature;
+            if(d.temperature > tempData[1]) tempData[1] = d.temperature;
+            hum.push([time, d.humidity]);
+            if(d.humidity < humData[0]) humData[0] = d.humidity;
+            if(d.humidity > humData[1]) humData[1] = d.humidity; 
+            illu.push([time, d.light]);
+            if(d.light < illuData[0]) illuData[0] = d.light;
+            if(d.light > illuData[1]) illuData[1] = d.light; 
+        });
+        const last = data[data.length-1];
+        console.log(data.length-1);
+        illuData[2] = last.light;
+        humData[2] = last.humidity;
+        tempData[2] = last.temperature;
+
+        console.log(temp);
+        console.log(hum);
+        console.log(illu);
+        updateData();
+        updateChar();
+        
+    }); 
+}
+
+const elements = [[document.getElementById('min-temp'), document.getElementById('min-umi'), document.getElementById('min-illu')],
+[document.getElementById('max-temp'), document.getElementById('max-umi'), document.getElementById('max-illu')],
+[document.getElementById('curr-temp'), document.getElementById('curr-umi'), document.getElementById('curr-illu')]];
+const bar = [[document.getElementById('min-temp-bar'), document.getElementById('min-umi-bar'), document.getElementById('min-illu-bar')],
+[document.getElementById('max-temp-bar'), document.getElementById('max-umi-bar'), document.getElementById('max-illu-bar')],
+[document.getElementById('curr-temp-bar'), document.getElementById('curr-umi-bar'), document.getElementById('curr-illu-bar')]];
+
+const home = [document.getElementById('home-temp'), document.getElementById('home-umi')];
+const homeBar = [document.getElementById('home-temp-bar'), document.getElementById('home-umi-bar')];
+function updateData() {
+    const dati = [tempData, humData, illuData];
+    for (let i = 0; i < 3; i++) {
+        elements[i].forEach((e, index) => {
+            e.innerHTML = dati[index][i];
+        });
+        bar[i].forEach((e, index) => {
+            if(index == 0) e.style.width = dati[index][i]*2+"%";
+            else e.style.width = dati[index][i]+"%";
+        });
+    }
+    home[0].innerHTML = tempData[2]+"°C";
+    home[1].innerHTML = humData[2]+"%";
+    homeBar[0].style.width = tempData[2]*2+"%";
+    homeBar[1].style.width = humData[2]+"%";
+}
 
 function showPage(page) {
     pages.forEach(p => {
@@ -38,16 +103,10 @@ function hiddenMenu() {
 
 
 
+getData();
 
-
-
-
-
-
-
-
-
-
+function updateChar() {
+   
 Highcharts.chart('home-chart', {
     chart: {
         type: 'spline'
@@ -119,7 +178,7 @@ Highcharts.chart('home-chart', {
     },
 
     // colors: ['#6CF', '#39F', '#06C', '#036', '#000'],
-    colors: ['lightblue', 'yellow', 'orange'],
+    colors: ['#2d94ee', 'yellow', 'orange'],
 
     // Define the data points. All series have a year of 1970/71 in order
     // to be compared on the same x axis. Note that in JavaScript, months start
@@ -128,218 +187,17 @@ Highcharts.chart('home-chart', {
         {
             name: 'Umidità',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 9, 24), 0],
-                [Date.UTC(1970, 9, 27), 0.12],
-                [Date.UTC(1970, 9, 30), 0.09],
-                [Date.UTC(1970, 10, 3), 0.13],
-                [Date.UTC(1970, 10, 6), 0.12],
-                [Date.UTC(1970, 10, 9), 0.13],
-                [Date.UTC(1970, 10, 12), 0.13],
-                [Date.UTC(1970, 10, 15), 0.16],
-                [Date.UTC(1970, 10, 18), 0.19],
-                [Date.UTC(1970, 10, 21), 0.25],
-                [Date.UTC(1970, 10, 24), 0.26],
-                [Date.UTC(1970, 10, 27), 0.24],
-                [Date.UTC(1970, 10, 30), 0.25],
-                [Date.UTC(1970, 11, 3), 0.26],
-                [Date.UTC(1970, 11, 6), 0.36],
-                [Date.UTC(1970, 11, 9), 0.43],
-                [Date.UTC(1970, 11, 12), 0.32],
-                [Date.UTC(1970, 11, 15), 0.48],
-                [Date.UTC(1970, 11, 18), 0.5],
-                [Date.UTC(1970, 11, 21), 0.44],
-                [Date.UTC(1970, 11, 24), 0.43],
-                [Date.UTC(1970, 11, 27), 0.45],
-                [Date.UTC(1970, 11, 30), 0.4],
-                [Date.UTC(1971, 0, 3), 0.39],
-                [Date.UTC(1971, 0, 6), 0.56],
-                [Date.UTC(1971, 0, 9), 0.57],
-                [Date.UTC(1971, 0, 12), 0.68],
-                [Date.UTC(1971, 0, 15), 0.93],
-                [Date.UTC(1971, 0, 18), 1.11],
-                [Date.UTC(1971, 0, 21), 1.01],
-                [Date.UTC(1971, 0, 24), 0.99],
-                [Date.UTC(1971, 0, 27), 1.17],
-                [Date.UTC(1971, 0, 30), 1.24],
-                [Date.UTC(1971, 1, 3), 1.41],
-                [Date.UTC(1971, 1, 6), 1.47],
-                [Date.UTC(1971, 1, 9), 1.4],
-                [Date.UTC(1971, 1, 12), 1.92],
-                [Date.UTC(1971, 1, 15), 2.03],
-                [Date.UTC(1971, 1, 18), 2.46],
-                [Date.UTC(1971, 1, 21), 2.53],
-                [Date.UTC(1971, 1, 24), 2.73],
-                [Date.UTC(1971, 1, 27), 2.67],
-                [Date.UTC(1971, 2, 3), 2.65],
-                [Date.UTC(1971, 2, 6), 2.62],
-                [Date.UTC(1971, 2, 9), 2.79],
-                [Date.UTC(1971, 2, 13), 2.93],
-                [Date.UTC(1971, 2, 20), 3.09],
-                [Date.UTC(1971, 2, 27), 2.76],
-                [Date.UTC(1971, 2, 30), 2.73],
-                [Date.UTC(1971, 3, 4), 2.9],
-                [Date.UTC(1971, 3, 9), 2.77],
-                [Date.UTC(1971, 3, 12), 2.78],
-                [Date.UTC(1971, 3, 15), 2.76],
-                [Date.UTC(1971, 3, 18), 2.76],
-                [Date.UTC(1971, 3, 21), 2.7],
-                [Date.UTC(1971, 3, 24), 2.61],
-                [Date.UTC(1971, 3, 27), 2.52],
-                [Date.UTC(1971, 3, 30), 2.53],
-                [Date.UTC(1971, 4, 3), 2.55],
-                [Date.UTC(1971, 4, 6), 2.52],
-                [Date.UTC(1971, 4, 9), 2.44],
-                [Date.UTC(1971, 4, 12), 2.43],
-                [Date.UTC(1971, 4, 15), 2.43],
-                [Date.UTC(1971, 4, 18), 2.48],
-                [Date.UTC(1971, 4, 21), 2.41],
-                [Date.UTC(1971, 4, 24), 2.16],
-                [Date.UTC(1971, 4, 27), 2.01],
-                [Date.UTC(1971, 4, 30), 1.88],
-                [Date.UTC(1971, 5, 2), 1.62],
-                [Date.UTC(1971, 5, 6), 1.43],
-                [Date.UTC(1971, 5, 9), 1.3],
-                [Date.UTC(1971, 5, 12), 1.11],
-                [Date.UTC(1971, 5, 15), 0.84],
-                [Date.UTC(1971, 5, 18), 0.54],
-                [Date.UTC(1971, 5, 21), 0.19],
-                [Date.UTC(1971, 5, 23), 0]
-            ]
+            data: hum
         },
         {
             name: 'Illuminazione',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 10, 14), 0],
-                [Date.UTC(1970, 11, 6), 0.35],
-                [Date.UTC(1970, 11, 13), 0.35],
-                [Date.UTC(1970, 11, 20), 0.33],
-                [Date.UTC(1970, 11, 30), 0.53],
-                [Date.UTC(1971, 0, 13), 0.62],
-                [Date.UTC(1971, 0, 20), 0.6],
-                [Date.UTC(1971, 1, 2), 0.69],
-                [Date.UTC(1971, 1, 18), 0.67],
-                [Date.UTC(1971, 1, 21), 0.65],
-                [Date.UTC(1971, 1, 24), 0.66],
-                [Date.UTC(1971, 1, 27), 0.66],
-                [Date.UTC(1971, 2, 3), 0.61],
-                [Date.UTC(1971, 2, 6), 0.6],
-                [Date.UTC(1971, 2, 9), 0.69],
-                [Date.UTC(1971, 2, 12), 0.66],
-                [Date.UTC(1971, 2, 15), 0.75],
-                [Date.UTC(1971, 2, 18), 0.76],
-                [Date.UTC(1971, 2, 21), 0.75],
-                [Date.UTC(1971, 2, 24), 0.69],
-                [Date.UTC(1971, 2, 27), 0.82],
-                [Date.UTC(1971, 2, 30), 0.86],
-                [Date.UTC(1971, 3, 3), 0.81],
-                [Date.UTC(1971, 3, 6), 1],
-                [Date.UTC(1971, 3, 9), 1.15],
-                [Date.UTC(1971, 3, 10), 1.35],
-                [Date.UTC(1971, 3, 12), 1.26],
-                [Date.UTC(1971, 3, 15), 1.18],
-                [Date.UTC(1971, 3, 18), 1.14],
-                [Date.UTC(1971, 3, 21), 1.04],
-                [Date.UTC(1971, 3, 24), 1.06],
-                [Date.UTC(1971, 3, 27), 1.05],
-                [Date.UTC(1971, 3, 30), 1.03],
-                [Date.UTC(1971, 4, 3), 1.01],
-                [Date.UTC(1971, 4, 6), 0.98],
-                [Date.UTC(1971, 4, 9), 0.94],
-                [Date.UTC(1971, 4, 12), 0.8],
-                [Date.UTC(1971, 4, 15), 0.61],
-                [Date.UTC(1971, 4, 18), 0.43],
-                [Date.UTC(1971, 4, 21), 0.29],
-                [Date.UTC(1971, 4, 24), 0.1],
-                [Date.UTC(1971, 4, 26), 0]
-            ]
+            data: illu
         },
         {
             name: 'Temperatura',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 10, 5), 0],
-                [Date.UTC(1970, 10, 12), 0.1],
-                [Date.UTC(1970, 10, 21), 0.15],
-                [Date.UTC(1970, 10, 22), 0.19],
-                [Date.UTC(1970, 10, 27), 0.17],
-                [Date.UTC(1970, 10, 30), 0.27],
-                [Date.UTC(1970, 11, 2), 0.25],
-                [Date.UTC(1970, 11, 4), 0.27],
-                [Date.UTC(1970, 11, 5), 0.26],
-                [Date.UTC(1970, 11, 6), 0.25],
-                [Date.UTC(1970, 11, 7), 0.26],
-                [Date.UTC(1970, 11, 8), 0.26],
-                [Date.UTC(1970, 11, 9), 0.25],
-                [Date.UTC(1970, 11, 10), 0.25],
-                [Date.UTC(1970, 11, 11), 0.25],
-                [Date.UTC(1970, 11, 12), 0.26],
-                [Date.UTC(1970, 11, 22), 0.22],
-                [Date.UTC(1970, 11, 23), 0.22],
-                [Date.UTC(1970, 11, 24), 0.22],
-                [Date.UTC(1970, 11, 25), 0.24],
-                [Date.UTC(1970, 11, 26), 0.24],
-                [Date.UTC(1970, 11, 27), 0.24],
-                [Date.UTC(1970, 11, 28), 0.24],
-                [Date.UTC(1970, 11, 29), 0.24],
-                [Date.UTC(1970, 11, 30), 0.22],
-                [Date.UTC(1970, 11, 31), 0.18],
-                [Date.UTC(1971, 0, 1), 0.17],
-                [Date.UTC(1971, 0, 2), 0.23],
-                [Date.UTC(1971, 0, 9), 0.5],
-                [Date.UTC(1971, 0, 10), 0.5],
-                [Date.UTC(1971, 0, 11), 0.53],
-                [Date.UTC(1971, 0, 12), 0.48],
-                [Date.UTC(1971, 0, 13), 0.4],
-                [Date.UTC(1971, 0, 17), 0.36],
-                [Date.UTC(1971, 0, 22), 0.69],
-                [Date.UTC(1971, 0, 23), 0.62],
-                [Date.UTC(1971, 0, 29), 0.72],
-                [Date.UTC(1971, 1, 2), 0.95],
-                [Date.UTC(1971, 1, 10), 1.73],
-                [Date.UTC(1971, 1, 15), 1.76],
-                [Date.UTC(1971, 1, 26), 2.18],
-                [Date.UTC(1971, 2, 2), 2.22],
-                [Date.UTC(1971, 2, 6), 2.13],
-                [Date.UTC(1971, 2, 8), 2.11],
-                [Date.UTC(1971, 2, 9), 2.12],
-                [Date.UTC(1971, 2, 10), 2.11],
-                [Date.UTC(1971, 2, 11), 2.09],
-                [Date.UTC(1971, 2, 12), 2.08],
-                [Date.UTC(1971, 2, 13), 2.08],
-                [Date.UTC(1971, 2, 14), 2.07],
-                [Date.UTC(1971, 2, 15), 2.08],
-                [Date.UTC(1971, 2, 17), 2.12],
-                [Date.UTC(1971, 2, 18), 2.19],
-                [Date.UTC(1971, 2, 21), 2.11],
-                [Date.UTC(1971, 2, 24), 2.1],
-                [Date.UTC(1971, 2, 27), 1.89],
-                [Date.UTC(1971, 2, 30), 1.92],
-                [Date.UTC(1971, 3, 3), 1.9],
-                [Date.UTC(1971, 3, 6), 1.95],
-                [Date.UTC(1971, 3, 9), 1.94],
-                [Date.UTC(1971, 3, 12), 2],
-                [Date.UTC(1971, 3, 15), 1.9],
-                [Date.UTC(1971, 3, 18), 1.84],
-                [Date.UTC(1971, 3, 21), 1.75],
-                [Date.UTC(1971, 3, 24), 1.69],
-                [Date.UTC(1971, 3, 27), 1.64],
-                [Date.UTC(1971, 3, 30), 1.64],
-                [Date.UTC(1971, 4, 3), 1.58],
-                [Date.UTC(1971, 4, 6), 1.52],
-                [Date.UTC(1971, 4, 9), 1.43],
-                [Date.UTC(1971, 4, 12), 1.42],
-                [Date.UTC(1971, 4, 15), 1.37],
-                [Date.UTC(1971, 4, 18), 1.26],
-                [Date.UTC(1971, 4, 21), 1.11],
-                [Date.UTC(1971, 4, 24), 0.92],
-                [Date.UTC(1971, 4, 27), 0.75],
-                [Date.UTC(1971, 4, 30), 0.55],
-                [Date.UTC(1971, 5, 3), 0.35],
-                [Date.UTC(1971, 5, 6), 0.21],
-                [Date.UTC(1971, 5, 9), 0]
-            ]
+            data: temp
         }
     ]
 });
@@ -424,88 +282,7 @@ Highcharts.chart('temp-chart', {
         {
             name: 'Temperatura',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 10, 5), 0],
-                [Date.UTC(1970, 10, 12), 0.1],
-                [Date.UTC(1970, 10, 21), 0.15],
-                [Date.UTC(1970, 10, 22), 0.19],
-                [Date.UTC(1970, 10, 27), 0.17],
-                [Date.UTC(1970, 10, 30), 0.27],
-                [Date.UTC(1970, 11, 2), 0.25],
-                [Date.UTC(1970, 11, 4), 0.27],
-                [Date.UTC(1970, 11, 5), 0.26],
-                [Date.UTC(1970, 11, 6), 0.25],
-                [Date.UTC(1970, 11, 7), 0.26],
-                [Date.UTC(1970, 11, 8), 0.26],
-                [Date.UTC(1970, 11, 9), 0.25],
-                [Date.UTC(1970, 11, 10), 0.25],
-                [Date.UTC(1970, 11, 11), 0.25],
-                [Date.UTC(1970, 11, 12), 0.26],
-                [Date.UTC(1970, 11, 22), 0.22],
-                [Date.UTC(1970, 11, 23), 0.22],
-                [Date.UTC(1970, 11, 24), 0.22],
-                [Date.UTC(1970, 11, 25), 0.24],
-                [Date.UTC(1970, 11, 26), 0.24],
-                [Date.UTC(1970, 11, 27), 0.24],
-                [Date.UTC(1970, 11, 28), 0.24],
-                [Date.UTC(1970, 11, 29), 0.24],
-                [Date.UTC(1970, 11, 30), 0.22],
-                [Date.UTC(1970, 11, 31), 0.18],
-                [Date.UTC(1971, 0, 1), 0.17],
-                [Date.UTC(1971, 0, 2), 0.23],
-                [Date.UTC(1971, 0, 9), 0.5],
-                [Date.UTC(1971, 0, 10), 0.5],
-                [Date.UTC(1971, 0, 11), 0.53],
-                [Date.UTC(1971, 0, 12), 0.48],
-                [Date.UTC(1971, 0, 13), 0.4],
-                [Date.UTC(1971, 0, 17), 0.36],
-                [Date.UTC(1971, 0, 22), 0.69],
-                [Date.UTC(1971, 0, 23), 0.62],
-                [Date.UTC(1971, 0, 29), 0.72],
-                [Date.UTC(1971, 1, 2), 0.95],
-                [Date.UTC(1971, 1, 10), 1.73],
-                [Date.UTC(1971, 1, 15), 1.76],
-                [Date.UTC(1971, 1, 26), 2.18],
-                [Date.UTC(1971, 2, 2), 2.22],
-                [Date.UTC(1971, 2, 6), 2.13],
-                [Date.UTC(1971, 2, 8), 2.11],
-                [Date.UTC(1971, 2, 9), 2.12],
-                [Date.UTC(1971, 2, 10), 2.11],
-                [Date.UTC(1971, 2, 11), 2.09],
-                [Date.UTC(1971, 2, 12), 2.08],
-                [Date.UTC(1971, 2, 13), 2.08],
-                [Date.UTC(1971, 2, 14), 2.07],
-                [Date.UTC(1971, 2, 15), 2.08],
-                [Date.UTC(1971, 2, 17), 2.12],
-                [Date.UTC(1971, 2, 18), 2.19],
-                [Date.UTC(1971, 2, 21), 2.11],
-                [Date.UTC(1971, 2, 24), 2.1],
-                [Date.UTC(1971, 2, 27), 1.89],
-                [Date.UTC(1971, 2, 30), 1.92],
-                [Date.UTC(1971, 3, 3), 1.9],
-                [Date.UTC(1971, 3, 6), 1.95],
-                [Date.UTC(1971, 3, 9), 1.94],
-                [Date.UTC(1971, 3, 12), 2],
-                [Date.UTC(1971, 3, 15), 1.9],
-                [Date.UTC(1971, 3, 18), 1.84],
-                [Date.UTC(1971, 3, 21), 1.75],
-                [Date.UTC(1971, 3, 24), 1.69],
-                [Date.UTC(1971, 3, 27), 1.64],
-                [Date.UTC(1971, 3, 30), 1.64],
-                [Date.UTC(1971, 4, 3), 1.58],
-                [Date.UTC(1971, 4, 6), 1.52],
-                [Date.UTC(1971, 4, 9), 1.43],
-                [Date.UTC(1971, 4, 12), 1.42],
-                [Date.UTC(1971, 4, 15), 1.37],
-                [Date.UTC(1971, 4, 18), 1.26],
-                [Date.UTC(1971, 4, 21), 1.11],
-                [Date.UTC(1971, 4, 24), 0.92],
-                [Date.UTC(1971, 4, 27), 0.75],
-                [Date.UTC(1971, 4, 30), 0.55],
-                [Date.UTC(1971, 5, 3), 0.35],
-                [Date.UTC(1971, 5, 6), 0.21],
-                [Date.UTC(1971, 5, 9), 0]
-            ]
+            data: temp
         }
     ]
 });
@@ -590,84 +367,7 @@ Highcharts.chart('umi-chart', {
         {
             name: 'Umidità',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 9, 24), 0],
-                [Date.UTC(1970, 9, 27), 0.12],
-                [Date.UTC(1970, 9, 30), 0.09],
-                [Date.UTC(1970, 10, 3), 0.13],
-                [Date.UTC(1970, 10, 6), 0.12],
-                [Date.UTC(1970, 10, 9), 0.13],
-                [Date.UTC(1970, 10, 12), 0.13],
-                [Date.UTC(1970, 10, 15), 0.16],
-                [Date.UTC(1970, 10, 18), 0.19],
-                [Date.UTC(1970, 10, 21), 0.25],
-                [Date.UTC(1970, 10, 24), 0.26],
-                [Date.UTC(1970, 10, 27), 0.24],
-                [Date.UTC(1970, 10, 30), 0.25],
-                [Date.UTC(1970, 11, 3), 0.26],
-                [Date.UTC(1970, 11, 6), 0.36],
-                [Date.UTC(1970, 11, 9), 0.43],
-                [Date.UTC(1970, 11, 12), 0.32],
-                [Date.UTC(1970, 11, 15), 0.48],
-                [Date.UTC(1970, 11, 18), 0.5],
-                [Date.UTC(1970, 11, 21), 0.44],
-                [Date.UTC(1970, 11, 24), 0.43],
-                [Date.UTC(1970, 11, 27), 0.45],
-                [Date.UTC(1970, 11, 30), 0.4],
-                [Date.UTC(1971, 0, 3), 0.39],
-                [Date.UTC(1971, 0, 6), 0.56],
-                [Date.UTC(1971, 0, 9), 0.57],
-                [Date.UTC(1971, 0, 12), 0.68],
-                [Date.UTC(1971, 0, 15), 0.93],
-                [Date.UTC(1971, 0, 18), 1.11],
-                [Date.UTC(1971, 0, 21), 1.01],
-                [Date.UTC(1971, 0, 24), 0.99],
-                [Date.UTC(1971, 0, 27), 1.17],
-                [Date.UTC(1971, 0, 30), 1.24],
-                [Date.UTC(1971, 1, 3), 1.41],
-                [Date.UTC(1971, 1, 6), 1.47],
-                [Date.UTC(1971, 1, 9), 1.4],
-                [Date.UTC(1971, 1, 12), 1.92],
-                [Date.UTC(1971, 1, 15), 2.03],
-                [Date.UTC(1971, 1, 18), 2.46],
-                [Date.UTC(1971, 1, 21), 2.53],
-                [Date.UTC(1971, 1, 24), 2.73],
-                [Date.UTC(1971, 1, 27), 2.67],
-                [Date.UTC(1971, 2, 3), 2.65],
-                [Date.UTC(1971, 2, 6), 2.62],
-                [Date.UTC(1971, 2, 9), 2.79],
-                [Date.UTC(1971, 2, 13), 2.93],
-                [Date.UTC(1971, 2, 20), 3.09],
-                [Date.UTC(1971, 2, 27), 2.76],
-                [Date.UTC(1971, 2, 30), 2.73],
-                [Date.UTC(1971, 3, 4), 2.9],
-                [Date.UTC(1971, 3, 9), 2.77],
-                [Date.UTC(1971, 3, 12), 2.78],
-                [Date.UTC(1971, 3, 15), 2.76],
-                [Date.UTC(1971, 3, 18), 2.76],
-                [Date.UTC(1971, 3, 21), 2.7],
-                [Date.UTC(1971, 3, 24), 2.61],
-                [Date.UTC(1971, 3, 27), 2.52],
-                [Date.UTC(1971, 3, 30), 2.53],
-                [Date.UTC(1971, 4, 3), 2.55],
-                [Date.UTC(1971, 4, 6), 2.52],
-                [Date.UTC(1971, 4, 9), 2.44],
-                [Date.UTC(1971, 4, 12), 2.43],
-                [Date.UTC(1971, 4, 15), 2.43],
-                [Date.UTC(1971, 4, 18), 2.48],
-                [Date.UTC(1971, 4, 21), 2.41],
-                [Date.UTC(1971, 4, 24), 2.16],
-                [Date.UTC(1971, 4, 27), 2.01],
-                [Date.UTC(1971, 4, 30), 1.88],
-                [Date.UTC(1971, 5, 2), 1.62],
-                [Date.UTC(1971, 5, 6), 1.43],
-                [Date.UTC(1971, 5, 9), 1.3],
-                [Date.UTC(1971, 5, 12), 1.11],
-                [Date.UTC(1971, 5, 15), 0.84],
-                [Date.UTC(1971, 5, 18), 0.54],
-                [Date.UTC(1971, 5, 21), 0.19],
-                [Date.UTC(1971, 5, 23), 0]
-            ]
+            data: hum
         }
     ]
 });
@@ -752,50 +452,16 @@ Highcharts.chart('illu-chart', {
         {
             name: 'Illuminazione',
             lineWidth: 5,
-            data: [
-                [Date.UTC(1970, 10, 14), 0],
-                [Date.UTC(1970, 11, 6), 0.35],
-                [Date.UTC(1970, 11, 13), 0.35],
-                [Date.UTC(1970, 11, 20), 0.33],
-                [Date.UTC(1970, 11, 30), 0.53],
-                [Date.UTC(1971, 0, 13), 0.62],
-                [Date.UTC(1971, 0, 20), 0.6],
-                [Date.UTC(1971, 1, 2), 0.69],
-                [Date.UTC(1971, 1, 18), 0.67],
-                [Date.UTC(1971, 1, 21), 0.65],
-                [Date.UTC(1971, 1, 24), 0.66],
-                [Date.UTC(1971, 1, 27), 0.66],
-                [Date.UTC(1971, 2, 3), 0.61],
-                [Date.UTC(1971, 2, 6), 0.6],
-                [Date.UTC(1971, 2, 9), 0.69],
-                [Date.UTC(1971, 2, 12), 0.66],
-                [Date.UTC(1971, 2, 15), 0.75],
-                [Date.UTC(1971, 2, 18), 0.76],
-                [Date.UTC(1971, 2, 21), 0.75],
-                [Date.UTC(1971, 2, 24), 0.69],
-                [Date.UTC(1971, 2, 27), 0.82],
-                [Date.UTC(1971, 2, 30), 0.86],
-                [Date.UTC(1971, 3, 3), 0.81],
-                [Date.UTC(1971, 3, 6), 1],
-                [Date.UTC(1971, 3, 9), 1.15],
-                [Date.UTC(1971, 3, 10), 1.35],
-                [Date.UTC(1971, 3, 12), 1.26],
-                [Date.UTC(1971, 3, 15), 1.18],
-                [Date.UTC(1971, 3, 18), 1.14],
-                [Date.UTC(1971, 3, 21), 1.04],
-                [Date.UTC(1971, 3, 24), 1.06],
-                [Date.UTC(1971, 3, 27), 1.05],
-                [Date.UTC(1971, 3, 30), 1.03],
-                [Date.UTC(1971, 4, 3), 1.01],
-                [Date.UTC(1971, 4, 6), 0.98],
-                [Date.UTC(1971, 4, 9), 0.94],
-                [Date.UTC(1971, 4, 12), 0.8],
-                [Date.UTC(1971, 4, 15), 0.61],
-                [Date.UTC(1971, 4, 18), 0.43],
-                [Date.UTC(1971, 4, 21), 0.29],
-                [Date.UTC(1971, 4, 24), 0.1],
-                [Date.UTC(1971, 4, 26), 0]
-            ]
+            data: illu
         }
     ]
-});
+}); 
+}
+
+
+
+
+
+
+
+

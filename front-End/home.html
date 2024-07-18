@@ -35,22 +35,22 @@
                 <div class="upper">
                     <div class="element">
                         <div class="desc"><p>Temperatura</p></div>
-                        <div class="val">32°C</div>
+                        <div class="val" id="home-temp">32°C</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: orange;"></div>
+                                <div class="sel" id="home-temp-bar" style="width: 64%; background-color: orange;"></div>
                             </div>
                             <p class="dato">50</p>
                         </div>
                     </div>
                     <div class="element">
                         <div class="desc"><p>Umidità</p></div>
-                        <div class="val">54%</div>
+                        <div class="val" id="home-umi">54%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 54%; background-color: lightblue;"></div>
+                                <div class="sel" id="home-umi-bar" style="width: 54%; background-color: #2d94ee;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -73,11 +73,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Minima</p></div>
-                        <div class="val">32°C</div>
+                        <div class="val" id="min-temp">32°C</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: yellowgreen;"></div>
+                                <div class="sel" id="min-temp-bar" style="width: 64%; background-color: yellowgreen;"></div>
                             </div>
                             <p class="dato">50</p>
                         </div>
@@ -85,11 +85,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Corrente</p></div>
-                        <div class="val">32°C</div>
+                        <div class="val" id="curr-temp">32°C</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: orange;"></div>
+                                <div class="sel" id="curr-temp-bar"style="width: 64%; background-color: orange;"></div>
                             </div>
                             <p class="dato">50</p>
                         </div>
@@ -97,11 +97,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Massima</p></div>
-                        <div class="val">32°C</div>
+                        <div class="val" id="max-temp">32°C</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: red;"></div>
+                                <div class="sel" id="max-temp-bar" style="width: 64%; background-color: red;"></div>
                             </div>
                             <p class="dato">50</p>
                         </div>
@@ -121,11 +121,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Minima</p></div>
-                        <div class="val">32%</div>
+                        <div class="val" id="min-umi">32%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: lightblue;"></div>
+                                <div class="sel" id="min-umi-bar" style="width: 64%; background-color: lightblue;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -133,11 +133,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Corrente</p></div>
-                        <div class="val">54%</div>
+                        <div class="val" id="curr-umi">54%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: #2d94ee;"></div>
+                                <div class="sel" id="curr-umi-bar"style="width: 64%; background-color: #2d94ee;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -145,11 +145,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Massima</p></div>
-                        <div class="val">80%</div>
+                        <div class="val" id="max-umi">80%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: blue;"></div>
+                                <div class="sel" id="max-umi-bar"style="width: 64%; background-color: blue;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -168,11 +168,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Minima</p></div>
-                        <div class="val">32%</div>
+                        <div class="val" id="min-illu">32%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: lightyellow;"></div>
+                                <div class="sel" id="min-illu-bar"style="width: 64%; background-color: lightyellow;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -180,11 +180,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Corrente</p></div>
-                        <div class="val">54%</div>
+                        <div class="val" id="curr-illu">54%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: yellow;"></div>
+                                <div class="sel" id="curr-illu-bar"style="width: 64%; background-color: yellow;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
@@ -192,11 +192,11 @@
 
                     <div class="element">
                         <div class="desc"><p>Massima</p></div>
-                        <div class="val">80%</div>
+                        <div class="val" id="max-illu">80%</div>
                         <div class="line">
                             <p class="dato">0</p>
                             <div class="row">
-                                <div class="sel" style="width: 64%; background-color: darkgoldenrod;"></div>
+                                <div class="sel" id="max-illu-bar"style="width: 64%; background-color: darkgoldenrod;"></div>
                             </div>
                             <p class="dato">100</p>
                         </div>
