@@ -3,12 +3,13 @@ let temp=[];
 let hum=[];
 let illu=[];
 
+// min max last
 let illuData = [100, 0, 0]
 let tempData = [100, 0, 0]
 let humData = [100, 0, 0]
 
 function getData() {
-    fetch('http://184.174.34.61:8080/api/v1/data')
+    fetch('http://127.0.0.1:8080/api/v1/data')
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -158,6 +159,8 @@ Highcharts.chart('home-chart', {
             }
         },
         gridLineColor: '#E9E9E9',
+        min: Math.min(illuData[0], tempData[0], humData[0]),
+        max: Math.max(illuData[1], tempData[1], humData[1])
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br>',
@@ -253,6 +256,8 @@ Highcharts.chart('temp-chart', {
             }
         },
         gridLineColor: '#E9E9E9',
+        min: tempData[0],
+        max: tempData[1]
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br>',
@@ -338,6 +343,8 @@ Highcharts.chart('umi-chart', {
             }
         },
         gridLineColor: '#E9E9E9',
+        min: humData[0],
+        max: humData[1]
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br>',
@@ -423,6 +430,8 @@ Highcharts.chart('illu-chart', {
             }
         },
         gridLineColor: '#E9E9E9',
+        min: illuData[0],
+        max: illuData[1]
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br>',
